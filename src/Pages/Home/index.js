@@ -1,10 +1,15 @@
 import React from "react";
+import TopBar from "../../Components/TopBar";
+import HomePage from "../../Components/HomePage"
+import { Grid } from "./style";
 
-const Home  = () =>{
+
+const Home = () => {
     return(
-        <div>
-            <h1>AAAAAAAAAAAAAAAAA</h1>
-        </div>
+         <Grid>
+            <TopBar />
+            <HomePage />
+         </Grid>
     )
 }
 

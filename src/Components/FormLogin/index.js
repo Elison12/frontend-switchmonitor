@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Button, Input } from './style';
+import { Form, Button, Input, Image } from './style';
 import { useHistory } from "react-router-dom";
 import http from '../../Services/APIhttp';
 import { getId, idUser, login, logout } from '../../Services/auth';
+import Logo from '../../Assets//img/logoSTIreduzido_branco.png';
+import Swal from "sweetalert2";
 
 const FormLogin = () => {
     const [username, setLogin] = useState('');
@@ -10,70 +12,64 @@ const FormLogin = () => {
 
     const history = useHistory();
 
-    const linkCadastro = () => {
-        history.push('/cadastro');
-    }
-    
-    
+
+
     const loginUser = () => {
         const body = {
             email: username,
             password: password
         }
         console.log(body)
-        if( body.email !== "" && body.password !== ""){
+        if (body.email !== "" && body.password !== "") {
             http
-            .post('/login', body)
-            .then((res) => {
-                logout()
-                console.log(res)
-                console.log('go')
-                login(res.data.token);
-                idUser(res.data._id);
-                console.log(res.data._id);
-                console.log(getId())
-                history.push('/home');
-            })
-            .catch((err) => {
-                console.log(err.response)
+                .post('/login', body)
+                .then((res) => {
+                    logout()
+                    console.log(res)
+                    console.log('go')
+                    login(res.data.token);
+                    idUser(res.data._id);
+                    console.log(res.data._id);
+                    console.log(getId())
+                    history.push('/home');
+                    window.location.reload(true)
+                })
+                .catch((err) => {
+                    console.log(err.response)
 
-            })
+                })
         } else {
-            console.log('erro')
-            // swal('Preencha todos os dados!');
+            Swal.fire({
+                title: "Preencha todos os dados",
+                // text: "Alert successful",
+                icon: "error",
+                confirmButtonText: "OK",
+            })
         }
     }
-    return(
+    return (
         <div>
-            {/* <Image src={logo}/> */}
             <Form>
-                <h1 style={{marginBottom: '10px'}}>Login</h1>
-                    <Input>
-                        <h2>Email </h2>
-                        <input 
-                           onChange={e => setLogin(e.target.value)}
-                           placeholder="Email"
-                           type="email"
-                           required
-                           value={username}
-                        />
-                    </Input>
-                    <Input>
-                        <h2>Senha</h2>
-                        <input 
+                <Image src={Logo}></Image>
+                <Input>
+                    <input
+                        onChange={e => setLogin(e.target.value)}
+                        placeholder="Email"
+                        type="email"
+                        required
+                        value={username}
+                    />
+                </Input>
+                <Input>
+                    <input
                         onChange={e => setPassword(e.target.value)}
                         placeholder="Senha"
                         type="password"
                         required
                         value={password}
-                        />
-                    </Input>
-                    <div 
-                    style={{fontSize: '15px', marginBottom: '10px', cursor: 'pointer', fontWeight: 'bold'}} 
-                    onClick={linkCadastro}>
-                        Não tenho Cadastro
-                    </div>
-                    <Button onClick={loginUser}>Entrar</Button>
+                    />
+                </Input>
+                <Button onClick={loginUser}><h1>Entrar</h1></Button>
             </Form>
         </div>
     );

@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter,  Redirect,  Route, Switch } from "react-router-dom";
 import { isAuthenticated } from "./Services/auth";
+import CircularProgress from '@mui/material/CircularProgress';
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 
@@ -12,7 +13,7 @@ const Routes = () => {
             render={(props) =>
                 isAuthenticated() ? (
                     <div>
-                        <Suspense fallback={<h1>carregando...</h1>}>
+                        <Suspense fallback={<CircularProgress />}>
                             <Component {...props} />
                         </Suspense>
                     </div>

@@ -25,4 +25,5 @@ export const getId = () => {
 
 export const logout = () => {
   localStorage.removeItem(TOKENKEY);
+  localStorage.removeItem(idkey);
 } 
